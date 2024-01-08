@@ -111,4 +111,59 @@ print(cat2.sound)
 print("Звук кота: \(cat1.sound)")
 print ("Звук собаки: \(dog1.sound)")
 
+// 3.Задание: Разработка и использование протоколов
 
+protocol PeopleProtocol {
+    var name: String {get set}
+    var strength: Int { get set}
+    
+    func startTrainingFight()
+}
+protocol FighterProtocol: PeopleProtocol {
+    var typeFighter: TypeFighter { get }
+}
+protocol AttackProtocol: PeopleProtocol {
+    func attacking() -> Int
+}
+enum TypeFighter {
+    case warrior
+    case mag
+}
+struct People: PeopleProtocol {
+    var name: String
+    var strength: Int
+    func startTrainingFight() {
+        print ("\(name) начал тренировку!")
+    }
+}
+struct Warrior: FighterProtocol, AttackProtocol {
+    var name: String
+    var strength: Int
+    var typeFighter: TypeFighter {
+        return .warrior
+    }
+    func attacking() -> Int {
+        print ("\(name) атакует!")
+        return strength * 2
+    }
+}
+struct Mag: FighterProtocol, AttackProtocol {
+
+    var name: String
+    var strength: Int
+    var typeFighter: TypeFighter {
+        return .mag
+    }
+    func attacking() -> Int {
+        print ("\(name) колдует заклинание!")
+        return strength * 3
+    }
+}
+
+let person = People(name: "Обычный человек", strength: 10)
+let warrior = Warrior(name: "Воин", strength: 20)
+let mag = Mag(name: "Мерлин", strength: 15)
+
+print ("Имя: \(person.name), Сила: \(person.strength)")
+print ("Тип бойца: \(warrior.typeFighter), Урон: \(warrior.attacking())")
+print ("Тип бойца: \(mag.typeFighter), Урон: \(mag.attacking())")
